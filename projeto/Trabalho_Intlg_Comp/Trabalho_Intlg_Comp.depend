@@ -1,0 +1,19 @@
+# depslib dependency file v1.0
+1479987608 source:/home/prof1/ownCloud/01_Mestrado/Intlg Comp/Implementação/Trabalho_Intl_Comp/Versão1.1/projeto/Trabalho_Intlg_Comp/main.cpp
+	<iostream>
+	<tuple>
+	<list>
+	"Grafo.h"
+
+1479989245 /home/prof1/ownCloud/01_Mestrado/Intlg Comp/Implementação/Trabalho_Intl_Comp/Versão1.1/projeto/Trabalho_Intlg_Comp/include/Grafo.h
+	<iostream>
+	<fstream>
+	<list>
+	<vector>
+	<tuple>
+	<queue>
+	<cstdlib>
+	<ctime>
+	<chrono>
+	<cmath>
+
