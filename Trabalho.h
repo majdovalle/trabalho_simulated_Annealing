@@ -50,6 +50,8 @@ class Grafo
         void preencherMatrizDist()
         {
             int k, i, j;
+            ofstream ofs("matriz.xls",fstream::app);
+
             for(i = 0; i < V; i++)
             {
                 distCid.push_back(vector<int>());
@@ -65,10 +67,13 @@ class Grafo
             {
                 for(j = 0; j < V; j++)
                 {
-                    cout << distCid[i][j] << "\t";
+                    cout << " " << distCid[i][j] << "\t";
+                    ofs << " "<< distCid[i][j] << "\t";
                 }
+                ofs << endl;
                 cout << endl;
             }
+            ofs.close();
         }
 
         /// mostrar solução
