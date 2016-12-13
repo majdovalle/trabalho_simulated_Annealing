@@ -1,0 +1,13 @@
+Solução aleatória: 
+
+0 -> 2 -> 4 -> 16 -> 10 -> 13 -> 7 -> 12 -> 8 -> 15 -> 3 -> 6 -> 14 -> 9 -> 11 -> 5 -> 1 -> 0
+Custo: 19636
+Temperatura Final: 9.96062e-30
+Número máximo de iterações na Temperatura: 100
+Número máximo de iterações total: 7143
+--------------------------------------------
+
+Solução final do Simulated Annealing
+0 -> 15 -> 8 -> 11 -> 10 -> 13 -> 14 -> 12 -> 7 -> 6 -> 5 -> 9 -> 16 -> 2 -> 1 -> 4 -> 3 -> 0
+Custo: 13424
+

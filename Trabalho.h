@@ -1,5 +1,6 @@
 #include<iostream>
 #include<string>
+#include<stack>
 #include<fstream>
 #include<list>
 #include<vector>
@@ -12,6 +13,7 @@
 #define INFINITO 100000
 #define MINIMO 0.00000000000000000000000000001
 
+//
 using namespace std;
 
 class Grafo
@@ -77,12 +79,13 @@ class Grafo
         }
 
         /// mostrar solução
-        void  mostarSolucao(list<int> s)
+        void  mostrarSolucao(list<int> s)
         {
             list<int>::iterator it;
             cout << endl;
             for(it = s.begin(); it != s.end(); it++)
                 cout << *it << " -> ";
+            cout << "0";
             cout << endl;
         }
 
@@ -196,16 +199,17 @@ class Grafo
 
         int custoSolucao(list<int> sol)// recebe uma solução (lista de vetores) e retorna um custo desta solução
         {
-            int custo = 0;
+            int i, custo = 0;
             vector<int> v;
 
             list<int>::iterator it;                        // inicializando o vetor
             for(it = sol.begin(); it != sol.end(); it++)   // com os elementos da lista
                 v.push_back(*it);
 
-            for(int i = 0; i < (v.size() - 1); i++)
+            for(i = 0; i < (v.size() - 1); i++)
                 custo += distCid[v[i]][v[i + 1]];
 
+            custo += distCid[v[i]][0]; // claculando último elemto do vetor para vértice zero
             return custo;
         }
 
@@ -267,12 +271,12 @@ class Grafo
             vector<int>::iterator it2;
             it2 = cam1.begin();
             it2 = it2 + pos;
-            int troca = *it2;          // coloca o elemento da
-            cam1.erase(it2);             // segunda posição no final
+            int troca = *it2;          // coloca o elemento de uma
+            cam1.erase(it2);             // posição aleatória no final do vetor
             cam1.push_back(troca);
 
             for(it2 = cam1.begin(); it2 != cam1.end(); it2++)
-                sv1.push_back(*it2);     // carrega uma lista
+                sv1.push_back(*it2);     // carrega uma lista com os elementos do vetor
 
             costsv1 = custoSolucao(sv1);
             return make_tuple(sv1,costsv1);
@@ -322,16 +326,131 @@ class Grafo
             return make_tuple(sv1,costsv1);
         }
 
+        vector<int> inverterVetor(vector<int> v)
+        {
+            vector<int> v_invertido;
+            stack<int> p;
+
+            for(int i = 0; i < v.size(); i++)
+            {
+                p.push(v[i]);
+            }
+
+            while(!p.empty())
+            {
+                v_invertido.push_back(p.top());
+                p.pop();
+            }
+
+            return v_invertido;
+        }
+
+        tuple<list<int>,int> vizinho_3(list<int> s) // pega um vetor de posições e desloca aleatoriamente
+        {
+            list<int> sv1;
+            vector<int> cam1, cam2, cam3;
+            int tam, aux = 0, pos1 = 0, pos2 = 0;
+            int costsv1 = 0;
+
+            while(pos1 == pos2) //escolha das posições envolvidas na troca
+            {
+                pos1 = numAleatorio(1, V-1);
+                pos2 = numAleatorio(1, V-1);
+            }
+
+            if(pos1 > pos2) // mudança de conteúdo caso seja necessário
+            {
+                aux = pos1;
+                pos1 = pos2; // sempre a posição 1 será
+                pos2 = aux;  // menor que a posição 2
+            }
+
+            list<int>::iterator it;
+            for(it = s.begin(); it != s.end(); it++)
+                cam1.push_back(*it);// inicializando o vetor
+
+            vector<int>::iterator it2;
+            for(it2 = cam1.begin() + pos1; it2 <= cam1.begin() + pos2; it2++)
+                cam2.push_back(*it2); // criando um vetor com o conteúdo a ser invertido e inserido no vetor principal
+
+            cam3 = inverterVetor(cam2); // inversão do vetor a ser inserido no vetor principal
+
+            cam1.erase(cam1.begin() + pos1, cam1.begin() + (pos2 + 1)); // vetor principal sem a parte selecionada
+
+            int i = 0;
+            for(it2 = cam1.begin() + pos1; it2 != cam1.begin() + (pos2 + 1); it2++) // carregando a parte selecionada invertida no vetor
+            {
+                cam1.insert(it2, cam3[i]);
+                i++;
+            }
+
+            for(it2 = cam1.begin(); it2 != cam1.end(); it2++)
+                sv1.push_back(*it2);     // carrega uma lista
+
+            costsv1 = custoSolucao(sv1);
+            return make_tuple(sv1,costsv1);
+        }
+
+        tuple<list<int>,int> vizinho_4(list<int> s) // pega um vetor de posições e desloca aleatoriamente
+        {
+            list<int> sv1;
+            vector<int> cam1, cam2, cam3;
+            int tam, aux = 0, pos1 = 0, pos2 = 0;
+            int costsv1 = 0;
+
+            while(pos1 == pos2) //escolha das posições envolvidas na troca
+            {
+                pos1 = numAleatorio(1, V-1);
+                pos2 = numAleatorio(1, V-1);
+            }
+
+            if(pos1 > pos2) // mudança de conteúdo caso seja necessário
+            {
+                aux = pos1;
+                pos1 = pos2; // sempre a posição 1 será
+                pos2 = aux;  // menor que a posição 2
+            }
+
+            list<int>::iterator it;
+            for(it = s.begin(); it != s.end(); it++)
+                cam1.push_back(*it);// inicializando o vetor para manipulação de dados
+
+            vector<int>::iterator it2;
+            for(it2 = cam1.begin() + pos1; it2 <= cam1.begin() + pos2; it2++)
+                cam2.push_back(*it2); // criando um vetor com o conteúdo a ser invertido e inserido no vetor principal
+
+            cam3 = inverterVetor(cam2); // inversão do vetor a ser inserido no vetor principal
+
+            cam1.erase(cam1.begin() + pos1, cam1.begin() + (pos2 + 1)); // vetor principal sem a parte selecionada
+
+            int i = 0;
+            for(it2 = cam1.begin() + pos1; it2 != cam1.begin() + (pos2 + 1); it2++) // carregando a parte selecionada invertida no vetor
+            {
+                cam1.push_back(cam2[i]);
+                i++;
+            }
+
+            for(it2 = cam1.begin(); it2 != cam1.end(); it2++)
+                sv1.push_back(*it2);     // carrega uma lista
+
+            costsv1 = custoSolucao(sv1);
+            return make_tuple(sv1,costsv1);
+        }
+
         tuple<list<int>,int> gerarVizinho(list<int> s)
         {
             int escolha;
-            escolha = numAleatorio(1, 2);
+            escolha = numAleatorio(1, 4);
             switch(escolha)
             {
                 case 1:
                     return vizinho_1(s);
                 case 2:
                     return vizinho_2(s);
+                case 3:
+                    return vizinho_3(s);
+                case 4:
+                    return vizinho_4(s);
             }
         }
 
@@ -351,6 +470,7 @@ class Grafo
             ofs << endl;
             for(it = s.begin(); it != s.end(); it++)
                 ofs << *it << " -> ";
+            ofs << "0";
             ofs << endl;
 
             ofs << "Custo: " << get<1>(solIni) << endl;
@@ -363,7 +483,7 @@ class Grafo
 
             for(it = m.begin(); it != m.end(); it++)
                 ofs << *it << " -> ";
-
+            ofs << "0";
             ofs << endl;
             ofs << "Custo: " << get<1>(solMelhor) << endl;
             ofs << endl;
@@ -444,7 +564,7 @@ class Grafo
             cout << endl;
             cout << "----------------------------------------------------" << endl;
             cout << "Solução aleatória: " << endl;
-            mostarSolucao(get<0>(solIni));
+            mostrarSolucao(get<0>(solIni));
             cout << "Custo: " << get<1>(solIni) << endl;
             cout << "Temperatura Final: " << tempAtual << endl;
             cout << "Número máximo de iterações na Temperatura: " << itMaxTemp << endl;
