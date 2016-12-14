@@ -163,7 +163,7 @@ class Grafo
             ofs.close();
         }
 
-        void gravarArquivo2(vector<int> x, vector<double> y, string dado) // gravação de dados no arquivo externo para plotar o gráfico
+        void gravarArquivo(vector<int> x, vector<double> y, string dado) // gravação de dados no arquivo externo para plotar o gráfico
         {
             ofstream ofs(dado,fstream::app); // adiciona no fim do arquivo
             int tam = x.size();
@@ -173,7 +173,7 @@ class Grafo
             ofs.close();
         }
 
-        void gravarArquivo3(vector<int> x, vector<int> y, string dado) // gravação de dados no arquivo externo para plotar o gráfico
+        void gravarArquivo(vector<int> x, vector<int> y, string dado) // gravação de dados no arquivo externo para plotar o gráfico
         {
             ofstream ofs(dado,fstream::app); // adiciona no fim do arquivo
             int tam = x.size();
@@ -572,7 +572,7 @@ class Grafo
             cout << endl;
             gravarArquivo(vx, vy, dado); // gravando arquivo externo
             gravarDados(solIni, solMelhor, tempAtual, itMaxTemp, j, dado4); // gravando arquivo externo dados para análise
-            gravarArquivo3(vy, vy1, dado3); // gravando arquivo externo custo x iter
+            gravarArquivo(vy, vy1, dado3); // gravando arquivo externo custo x iter
 
 
             return solMelhor;
